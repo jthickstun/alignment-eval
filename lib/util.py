@@ -47,21 +47,21 @@ def pianoroll(events, fs=44100, stride=512):
     return x
         
 def pscore(score, alignment, stride=512, start=False):
+    epsilon = 1e-4
     notes = score[:,:-1]
     score_time, perf_time = zip(*alignment)
     num_windows = int(alignment[-1][1]*(44100./stride))+1
     
     x = np.zeros([num_windows,128])
     for i in range(num_windows):
-        t = (i*stride)/44100.                   # time (in seconds) in the performance
-        if start:                               # if start time is given
+        t = (i*stride)/44100.                           # time (in seconds) in the performance
+        if start:                                       # if start time is given
             if t < perf_time[0]: continue
 
-        j = np.argmin(t>np.array(perf_time))    # index of the first event in performance that ends after time t
-        s = score_time[j]                       # time (in beats) in the score
-        k = np.argmin(s>np.cumsum(score[:,-1])) # index of the first event in score that ends after time s
-        if k == 0: continue                     # s occurs after the the end of the score
-        
+        j = np.argmin(t>np.array(perf_time))            # index of the first event in performance that ends after time t
+        s = score_time[j]                               # time (in beats) in the score
+        if s > np.sum(score[:,-1]): continue
+        k = np.argmin(s>np.cumsum(score[:,-1])+epsilon) # index of the first event in score that ends after time s
         x[i] = notes[k]
     
     return x
