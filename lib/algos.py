@@ -9,7 +9,7 @@ pyximport.install(reload_support=True, language_level=sys.version_info[0],
                   setup_args={"include_dirs":np.get_include()})
 import lib.gtalign as gtalign
 
-def align_ground_truth(score_midi, perf, fs=44100, stride=512, lmbda=1.0):
+def align_ground_truth(score_midi, perf, fs=44100, stride=512, lmbda=0.1):
     score_events,score_start,score_end = midi.load_midi_events(score_midi)
     perf_events,perf_start,perf_end = midi.load_midi_events(perf + '.midi')
 
