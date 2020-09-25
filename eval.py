@@ -30,6 +30,7 @@ def match_onsets(score_notes, perf_notes, gt_alignment, thres=.100):
 
 def evaluate(candidatedir, gtdir, scoredir, perfdir):
     mad, old_mad, rmse, old_rmse, missedpct = [[] for _ in range(5)]
+    outliers = 0
     print("Performance\tTimeErr\tTimeDev\tNoteErr\tNoteDev\t%Match")
     for file in sorted([f[:-len('.midi')] for f in os.listdir(perfdir) if f.endswith('.midi')]):
         gt_alignment = np.loadtxt(os.path.join(gtdir, file + '.txt'))
@@ -62,8 +63,8 @@ def evaluate(candidatedir, gtdir, scoredir, perfdir):
 
         se = [(1/3)*(e1**2+e1*e2+e2**2) for (e1,e2) in zip(error[:-1],error[1:])]
 
-        mad.append((1./S)*np.dot(dev,ds))
-        rmse.append(np.sqrt((1./S)*np.dot(se,ds)))
+        thismad = (1./S)*np.dot(dev,ds)
+        thisrmse = np.sqrt((1./S)*np.dot(se,ds))
     
         #
         # compute old metrics
@@ -78,13 +79,23 @@ def evaluate(candidatedir, gtdir, scoredir, perfdir):
         ch_aligned_onsets = np.interp(onsets,*zip(*ch_alignment))
         dev = gt_onsets - ch_aligned_onsets
 
-        old_mad.append((1./len(dev))*np.sum(np.abs(dev)))
-        old_rmse.append(np.sqrt((1./len(dev))*np.sum(np.power(dev,2))))
+        thisold_mad = (1./len(dev))*np.sum(np.abs(dev))
+        thisold_rmse = np.sqrt((1./len(dev))*np.sum(np.power(dev,2)))
 
-        print('{}\t{:.4f}\t{:.4f}\t{:.4f}\t{:.4f}\t{:.4f}'.format(file, mad[-1], rmse[-1], old_mad[-1], old_rmse[-1], missedpct[-1]))
+        if thismad < 1.:
+            mad.append(thismad)
+            rmse.append(thisrmse)
+            old_mad.append(thisold_mad)
+            old_rmse.append(thisold_rmse)
+        else:
+            outliers += 1   
+
+        print('{}\t{:.4f}\t{:.4f}\t{:.4f}\t{:.4f}\t{:.4f}'.format(file, thismad, thisrmse, thisold_mad, thisold_rmse, missedpct[-1]))
 
     print('=' * 100)
     print('{}\t{:.4f}\t{:.4f}\t{:.4f}\t{:.4f}\t{:.4f}'.format('bottomline', np.mean(mad), np.mean(rmse), np.mean(old_mad), np.mean(old_rmse), np.mean(missedpct)))
+    print('(removed {} outliers)'.format(outliers))
+   
 
 if __name__ == "__main__":
     algo = sys.argv[1]
