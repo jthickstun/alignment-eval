@@ -45,3 +45,7 @@ To evaluate the results of a particular alignment algorithm:
 ```
 python3 eval.py {spectra,chroma,cqt} data/score data/perf
 ```
+
+![](assets/ground_truth.png)
+
+![](assets/candidates.png)

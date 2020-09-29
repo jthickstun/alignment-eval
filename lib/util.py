@@ -30,9 +30,7 @@ def colorplot(ax, x, y, aspect=4):
     cmap = colors.ListedColormap(['white','red','orange','black'])
     bounds = [0,1,2,3,4]
     norm = colors.BoundaryNorm(bounds, cmap.N)
-    ax[0].imshow(x.T, interpolation='none', cmap='Greys', aspect=aspect)
-    ax[1].imshow(y.T, interpolation='none', cmap='Greys', aspect=aspect)
-    ax[2].imshow(x.T*2 + y.T, interpolation='none', cmap=cmap, aspect=aspect, norm=norm)
+    ax.imshow(x.T*2 + y.T, interpolation='none', cmap=cmap, aspect=aspect, norm=norm)
 
 def pianoroll(events, fs=44100, stride=512):
     notes = events[:,:-1]
