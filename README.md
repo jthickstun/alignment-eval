@@ -52,6 +52,20 @@ python3 eval.py {spectra,chroma,cqt} data/score data/perf
 
 ## Visualizations 
 
+To understand the behavior of the ground-truth alignments, we can visually compare the piano-roll
+performance (subplot 1) captured by the Yamaha Disklavier to the performance-aligned score created
+by warping the score according to the ground-truth alignment (subplot 2). In the comparison plot
+(subplot 3) we use red to identify notes that are indicated by the performance-aligned score but
+not performed and yellow to identify notes that are performed but not indicated by the
+performance-aligned score. This example visualizes the beginning of a performance of the Bach's
+Prelude and Fugue in G-sharp minor (BWV 863).
+
 ![](assets/ground_truth.png)
+
+We can also use these visualizations to compare the results of an candidate alignment algorithm to
+the ground-truth alignment. In each case, red is used to identify notes that are indicated by the
+candidate alignment algorithm, but not by the ground-truth alignment, and yellow is used to
+identify notes that are indicated by the ground-truth alignment, but not by the candidate
+alignment.
 
 ![](assets/candidates.png)
