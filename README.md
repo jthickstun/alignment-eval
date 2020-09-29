@@ -1,5 +1,7 @@
 # music-alignment
 
+## Building the Dataset
+
 To get started, first clone a copy of the Bach WTC scores:
 
 ```
@@ -30,7 +32,9 @@ python3 align.py ground data/score data/perf N
 The first argument specifes the alignment algorithm (written to an output directory of the same name).
 The fourth argument 'N' specifies the number of parallel processes to run (N = 0 runs non-parallel)
 
-You can generate audio-to-score alignments by specifying a particular alignemnt algorithm:
+## Computing Alignments
+
+You can compute audio-to-score alignments by specifying a particular alignemnt algorithm:
 
 ```
 python3 align.py {spectra,chroma,cqt} data/score data/perf N
@@ -45,6 +49,8 @@ To evaluate the results of a particular alignment algorithm:
 ```
 python3 eval.py {spectra,chroma,cqt} data/score data/perf
 ```
+
+## Visualizations 
 
 ![](assets/ground_truth.png)
 
