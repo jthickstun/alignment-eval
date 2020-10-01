@@ -1,5 +1,7 @@
 # music-alignment
 
+Experiments and dataset for the paper [Rethinking Evaluation Methodology for Audio-to-Score Alignment](https://arxiv.org/abs/2009.14374).
+
 ## Building the Dataset
 
 To get started, first clone a copy of the Bach WTC scores:
@@ -69,3 +71,16 @@ identify notes that are indicated by the ground-truth alignment, but not by the 
 alignment.
 
 ![](assets/candidates.png)
+
+## References
+
+To reference this work, please cite
+
+```bib
+@article{thickstun2020rethinking,
+  author    = {John Thickstun and Jennifer Brennan and Harsh Verma},
+  title     = {Rethinking Evaluation Methodology for Audio-to-Score Alignment},
+  journal   = {arXiv preprint arXiv:2009.14374},
+  year      = {2020},
+}
+```
