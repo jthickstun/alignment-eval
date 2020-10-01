@@ -82,7 +82,8 @@ def evaluate(candidatedir, gtdir, scoredir, perfdir):
         thisold_mad = (1./len(dev))*np.sum(np.abs(dev))
         thisold_rmse = np.sqrt((1./len(dev))*np.sum(np.power(dev,2)))
 
-        if thismad < 1.:
+        # throw out outliers with error > 300ms
+        if thismad < .300:
             mad.append(thismad)
             rmse.append(thisrmse)
             old_mad.append(thisold_mad)
