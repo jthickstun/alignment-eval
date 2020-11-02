@@ -36,7 +36,7 @@ The fourth argument 'N' specifies the number of parallel processes to run (N = 0
 
 ## Computing Alignments
 
-You can compute audio-to-score alignments by specifying a particular alignemnt algorithm:
+You can compute audio-to-score alignments by specifying a particular alignment algorithm:
 
 ```
 python3 align.py {spectra,chroma,cqt} data/score data/perf N
