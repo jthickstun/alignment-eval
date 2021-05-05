@@ -31,6 +31,7 @@ def match_onsets(score_notes, perf_notes, gt_alignment, thres=.100):
 def evaluate(candidatedir, gtdir, scoredir, perfdir):
     mad, old_mad, rmse, old_rmse, missedpct = [[] for _ in range(5)]
     outliers = 0
+    epsilon = 1e-4
     print("Performance\tTimeErr\tTimeDev\tNoteErr\tNoteDev\t%Match")
     for file in sorted([f[:-len('.midi')] for f in os.listdir(perfdir) if f.endswith('.midi')]):
         gt_alignment = np.loadtxt(os.path.join(gtdir, file + '.txt'))
@@ -41,7 +42,7 @@ def evaluate(candidatedir, gtdir, scoredir, perfdir):
     
         # truncate to the range [score_start,score_end)
         idx0 = np.argmin(score_start > gt_alignment[:,0])
-        idxS = np.argmin(score_end > gt_alignment[:,0])
+        idxS = np.argmin(score_end > gt_alignment[:,0] + epsilon)
         gt_alignment = gt_alignment[idx0:idxS]
     
         #
